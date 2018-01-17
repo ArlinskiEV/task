@@ -55,7 +55,7 @@ class Circle {
             (this.target[1] - this.pos[1]) * (this.target[1] - this.pos[1]));
         
         const norm = this.target.map((item, i) => {
-            return this.speed * ((item - this.pos[i]) / length);
+            return (item - this.pos[i]) / length;
         });
 
         // check
@@ -64,7 +64,7 @@ class Circle {
         
 
         this.pos = this.pos.map((item, i) => {
-            const coordinate = item + norm[i];
+            const coordinate = item + (norm[i] * this.speed);
             return ((coordinate < 0) || (coordinate > 500)) ? this.target[i] : coordinate;
         });
 
