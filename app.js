@@ -61,21 +61,22 @@ class Circle {
         // check
         window.console.log(`normDiff = ${this.norm[0] - norm[0]}, ${this.norm[1] - norm[1]}`);
         this.norm = norm;
-        
-
-        this.pos = this.pos.map((item, i) => {
-            const coordinate = item + (norm[i] * this.speed);
-            return ((coordinate < 0) || (coordinate > 500)) ? this.target[i] : coordinate;
-        });
-
-
-        this.render();
 
         if (this.speed < length) {
+
+            this.pos = this.pos.map((item, i) => {
+                const coordinate = item + (norm[i] * this.speed);
+                return ((coordinate < 0) || (coordinate > 500)) ? this.target[i] : coordinate;
+            });
+            this.render();
             requestAnimationFrame(() => {
                 this.move();
               });
         } else {
+            this.pos = this.pos.map((item, i) => {
+                return this.target[i];
+            });
+            this.render();
             this.onMove = false;
           }
     }
