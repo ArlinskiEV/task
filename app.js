@@ -24,6 +24,21 @@ class Circle {
             this.moveTo([x, y]);
           });
 
+        document.addEventListener('keyup', (e) => {
+            switch (e.keyCode) {
+                case 40: {
+                    this.speed -= 1;
+                    if (this.speed < 1) this.speed = 1;
+                    break;
+                };
+                case 38: {
+                    this.speed += 1;
+                    if (this.speed > 50) this.speed = 50;
+                    break;
+                }
+            }
+        });
+
     }
 
     moveTo(target) {
