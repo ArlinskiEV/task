@@ -1,12 +1,12 @@
 class Circle {
   constructor(x = 0, y = 0, color = [255, 0, 0]) {
     // this.color = color;
-    this.pos = [x, y, ...color];
-    this.speed = 1; // just some coefficient
+    this.pos = [x, y, ...color, 10]; // [x, y, r-color, g-color, b-color, radius]
+    this.speed = 3; // just some coefficient
 
     this.norm = this.pos.map(() => 0);
 
-    this.radius = 10;
+    // this.radius = 10;
     this.onMove = false;
 
     this.canvas = document.getElementById('canvas');
@@ -21,7 +21,10 @@ class Circle {
       const targetColor = this.pos[4] !== 255
         ? [0, 0, 255]
         : [255, 0, 0];
-      this.moveTo([newX, newY, ...targetColor]);
+      const targetRadius = this.radius !== 10
+        ? 10
+        : 50;
+      this.moveTo([newX, newY, ...targetColor, targetRadius]);
     });
 
     document.addEventListener('keyup', (e) => {
@@ -41,8 +44,21 @@ class Circle {
     });
   }
 
+  get color() {
+    return `rgb(${
+      this.pos
+        .slice(2, 5)
+        .map(item => Math.trunc(item))
+        .join(',')
+    })`;
+  }
+
+  get radius() {
+    return this.pos[5];
+  }
+
   moveTo(target) {
-    this.target = target;
+    this.target = target; // format like pos
     if (!this.onMove) {
       this.onMove = true;
       this.move();
@@ -84,14 +100,8 @@ class Circle {
     this.ctx.beginPath();
     this.ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, false);
 
-    const color = `rgb(${
-      this.pos
-        .slice(2, 5)
-        .map(item => Math.trunc(item))
-        .join(',')
-    })`;
     // window.console.log(`color = ${color}`);
-    this.ctx.fillStyle = color;
+    this.ctx.fillStyle = this.color;
     this.ctx.fill();
   }
 }
